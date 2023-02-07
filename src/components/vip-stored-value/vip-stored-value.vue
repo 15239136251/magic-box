@@ -73,7 +73,7 @@
     </view>
 </template>
 
-<script setup lang="ts" name="q-vip-stored-value">
+<script setup lang="ts" name="vip-stored-value">
 import { ref, reactive, toRefs, watch } from 'vue'
 import { getRandomNumber } from '@/utils/utils'
 import uniStorage from '@/utils/uniStorage'
