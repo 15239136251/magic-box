@@ -1,6 +1,219 @@
 {
   "pages": [
     {
+      "path": "pages/home/home",
+      "style": {
+        "navigationBarTitleText": "门店POS",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/login/login",
+      "style": {
+        "navigationBarTitleText": "门店POS",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/bill/bill",
+      "style": {
+        "navigationBarTitleText": "开单",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/ret/ret",
+      "style": {
+        "navigationBarTitleText": "退货",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/retOriginalOrderList/retOriginalOrderList",
+      "style": {
+        "navigationBarTitleText": "原单退货",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/retOriginalOrder/retOriginalOrder",
+      "style": {
+        "navigationBarTitleText": "原单退货",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/retOriginalOrderSettle/retOriginalOrderSettle",
+      "style": {
+        "navigationBarTitleText": "原单退货",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/retNonOriginalOrder/retNonOriginalOrder",
+      "style": {
+        "navigationBarTitleText": "非原单退货",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/checkStock/checkStock",
+      "style": {
+        "navigationBarTitleText": "查库存",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/checkRetail/checkRetail",
+      "style": {
+        "navigationBarTitleText": "查零售",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/storeOutList/storeOutList",
+      "style": {
+        "navigationBarTitleText": "出库",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/storeOutDetail/storeOutDetail",
+      "style": {
+        "navigationBarTitleText": "出库",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/storeInList/storeInList",
+      "style": {
+        "navigationBarTitleText": "入库",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/storeInDetail/storeInDetail",
+      "style": {
+        "navigationBarTitleText": "入库",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/storeInventoryList/storeInventoryList",
+      "style": {
+        "navigationBarTitleText": "盘点",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/storeInventoryAddTable/storeInventoryAddTable",
+      "style": {
+        "navigationBarTitleText": "盘点",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/storeInventoryAddItem/storeInventoryAddItem",
+      "style": {
+        "navigationBarTitleText": "盘点",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/storeInventoryDiffItem/storeInventoryDiffItem",
+      "style": {
+        "navigationBarTitleText": "盘点",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/storeAllocationList/storeAllocationList",
+      "style": {
+        "navigationBarTitleText": "快速调拨",
+        "enablePullDownRefresh": false
+      }
+    },
+		{
+        "path" : "pages/storeAllocationDetail/storeAllocationDetail",
+        "style" :                                                                                    
+        {
+          "navigationBarTitleText": "快速调拨",
+          "enablePullDownRefresh": false
+        }
+    },
+		{
+        "path" : "pages/saleRet/saleRet",
+        "style" :                                                                                    
+        {
+          "navigationBarTitleText": "销售退货",
+          "enablePullDownRefresh": false
+        }
+    },
+		{
+        "path" : "pages/saleRetDetail/saleRetDetail",
+        "style" :                                                                                    
+        {
+          "navigationBarTitleText": "销售退货",
+          "enablePullDownRefresh": false
+        }
+    },
+		// {
+    //     "path" : "pages/o2oSoout/o2oSoout",
+    //     "style" :                                                                                    
+    //     {
+    //       "navigationBarTitleText": "云仓发货",
+    //       "enablePullDownRefresh": false
+    //     }
+    // },
+		// {
+    //     "path" : "pages/o2oSooutDetail/o2oSooutDetail",
+    //     "style" :                                                                                    
+    //     {
+    //       "navigationBarTitleText": "云仓发货",
+    //       "enablePullDownRefresh": false
+    //     }
+    // },
+		{
+      "path" : "pages/targetSetting/targetSetting",
+      "style" :                                                                                    
+      {
+        "navigationBarTitleText": "目标设置",
+        "enablePullDownRefresh": false
+      }
+    },
+		{
+      "path" : "pages/targetSettingDetail/targetSettingDetail",
+      "style" :                                                                                    
+      {
+        "navigationBarTitleText": "目标设置",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path" : "pages/vipQuery/vipQuery",
+      "style" :                                                                                    
+      {
+          "navigationBarTitleText": "会员查询",
+          "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path" : "pages/vipQueryDetail/vipQueryDetail",
+      "style" :                                                                                    
+      {
+          "navigationBarTitleText": "会员详情",
+          "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path" : "pages/H5Page/H5Page",
+      "style" :                                                                                    
+      {
+          "navigationBarTitleText": "首页",
+          "disableScroll": true
+      }
+    },
+    {
       "path": "pages/index/index",
       "style": {
         "navigationBarTitleText": "uni-app",
@@ -16,8 +229,8 @@
   ],
   "globalStyle": {
     "navigationBarTextStyle": "black",
-    "navigationBarTitleText": "uni-app",
-    "navigationBarBackgroundColor": "#F8F8F8",
+    "navigationBarTitleText": "门店POS",
+    "navigationBarBackgroundColor": "#ffffff",
     "backgroundColor": "#F8F8F8",
     "usingComponents": {
       // #ifdef MP-WEIXIN
@@ -94,6 +307,7 @@
     "autoscan": true,
     "custom": {
       "^uni-(.*)": "@dcloudio/uni-ui/lib/uni-$1/uni-$1.vue",
+      "^q-(.*)": "@/components/q-$1/q-$1.vue",
       "^Base(.*)": "@/components/Base$1/index.vue",
       "^Mix(.*)": "@/pageComponents/Mix$1/index.vue"
     }
