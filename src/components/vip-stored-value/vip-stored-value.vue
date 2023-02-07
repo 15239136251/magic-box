@@ -78,6 +78,7 @@ import { ref, reactive, toRefs, watch } from 'vue'
 import { getRandomNumber } from '@/utils/utils'
 import uniStorage from '@/utils/uniStorage'
 import { showModal } from '@/utils/interactions'
+import REQ from '@/utils/http_wx'
 
 const props = defineProps({
     beAmt: {
@@ -87,6 +88,7 @@ const props = defineProps({
     vip: {
         type: Object,
         default: {
+            id: -1,
             name: '',
             amount: 0,
             cardno: ''
@@ -125,6 +127,7 @@ const setCodeStorage = () => {
     const time = 180000
 	const step = 10000
     uniStorage.setItem('vipstored-code', JSON.stringify({ code, time }))
+    uploadCode(code)
     let codeTime = 0
     let isclear = 0
     codeTime = setInterval(() => {
@@ -135,15 +138,36 @@ const setCodeStorage = () => {
         }
     }, step)
 }
+const uploadCode = (code: number) => {
+    const { id } = vip.value
+    const data = {
+        main: {
+            vipId: id,
+            msg: '验证码',
+            code
+        }
+    }
+    console.log("🚀 ~ file: vip-stored-value.vue:148 ~ uploadCode ~ data", data)
+    REQ({
+        url: 'pos/dy/vip_message/curd',
+        method: 'POST',
+        data
+    }).catch(err => {
+        console.log("🚀 ~ file: vip-stored-value.vue:156 ~ uploadCode ~ err", err)
+    })
+}
 const save = () => {
     if (data.code === '') return showModal('提示', '验证码未填写', false)
     let _code = uniStorage.getItem('vipstored-code')
     if (_code) _code = JSON.parse(_code).code
     if (!_code) return showModal('提示', '验证码已过期', false)
+    if (_code != data.code) return showModal('提示', '验证码输入错误', false)
     if (data.amt > Number(props.beAmt)) return showModal('提示', '当前应付金额大于剩余应付', false)
+    if (data.amt > data.amtcan) return showModal('提示', '当前应付金额大于可用金额', false)
     uniStorage.removeItem('vipstored-code')
     emit('save', data.amt)
     time.value = 3
+    data.code = ''
     close()
 }
 
