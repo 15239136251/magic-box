@@ -85,7 +85,7 @@
 			</view>
 		</view>
 		<!-- 会员储值卡弹窗 -->
-		<q-vip-stored-value :isopen="isOpenVipStoredValue" :beAmt="beAmtinv" :vip="routerValue.vip" @save="vipStoredValueSave" @close="closeVipStoredValue"></q-vip-stored-value>
+		<vip-stored-value :isopen="isOpenVipStoredValue" :beAmt="beAmtinv" :vip="routerValue.vip" @save="vipStoredValueSave" @close="closeVipStoredValue"></vip-stored-value>
     </view>
 </template>
 

@@ -189,6 +189,8 @@ export const useRetOriginalOrderSettleStore = defineStore('retOriginalOrderSettl
             this.payAmts[pay.name] = amt
         },
         openVipStoredValue() {
+            this.getVipAmount()
+            this.vipStoredValueSave(0)
             this.isOpenVipStoredValue = true
         },
         closeVipStoredValue() {
@@ -201,6 +203,15 @@ export const useRetOriginalOrderSettleStore = defineStore('retOriginalOrderSettl
             }).then((res: any) => {
                 const keys = this.routerValue.pays.map((pay: any) => {return pay.payway_name})
                 this.payItems = res.data.filter((data: any) => keys.includes(data.name))
+            })
+        },
+        getVipAmount() {
+            REQ({
+                url: 'pos/vip/list',
+                method: 'POST',
+                data: { name: this.routerValue.vip.cardno }
+            }).then((res: any) => {
+                this.routerValue.vip.amount = res.data[0].amount
             })
         }
     },
