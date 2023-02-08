@@ -116,14 +116,14 @@ const getPayParams = () => {
     })
 }
 const getSign = (data: any) => {
-    let sign = `appId=${base64.encode(data.app_id)}&appSecret=${base64.encode(data.app_key)}&version=${base64.encode("3.1")}&method=${base64.encode(data.method)}&timestamp=${base64.encode(data.timestamp)}`
+    let sign = `appId=${base64.encode(data.app_id)}&appSecret=${base64.encode(data.app_key)}&version=${base64.encode(data.version)}&method=${base64.encode(data.method)}&timestamp=${base64.encode(data.timestamp)}`
     if (data.requestId) sign = sign + `&requestId=${base64.encode(data.requestId)}`
     sign = Md5.hashStr(sign)
     return sign.toUpperCase()
 }
 const getPayData = (method: string) => {
     const { data, merchant, timestamp, requestId } = payparams.value
-    const sign = getSign({ ...merchant, timestamp, requestId, method })
+    const sign = getSign({ ...merchant, timestamp, requestId, method, version: "3.1" })
     const logininfo:any = uniStorage.getItem('logininfo')
     const param = {
         customerId: data.customerid, // 商户号
@@ -208,7 +208,7 @@ const cancelPayApi = () => {
     let data:any = getPayData('Sungeon.Pay.Reverse')
     data.param = {
         ...data.param,
-        outRefundNo: orderdata.value.orderno, // 付款码
+        outRefundNo: orderdata.value.orderno
     }
     REQ({
         url: config.api.pay + 'Reverse',
@@ -272,6 +272,47 @@ const upload = () => {
         data
     }).catch(err => {
         console.log("🚀 ~ file: paymentPage.vue:274 ~ upload ~ err", err)
+    })
+}
+const callRetPayApi = () => {
+    let data:any = getPayData('Sungeon.Pay.Refund')
+    const order = orderdata.value.pays.find((pay: any) => pay.payway_name == paytype.value);
+    data.param = {
+        ...data.param,
+        outRefundNo: order.refundno || orderdata.value.rdocno,  // 退款单号
+        outTradeNo: order.mobilepayno, // 原商户订单号
+        totalAmount: (payamt.value * 100), // 支付金额，单位分；￥368.00—传36800
+        refundAmount: (payamt.value * 100) // 退款总金额，单位分；￥368.00—传36800
+    }
+    REQ({
+        url: config.api.pay + 'Reverse',
+        method: 'POST',
+        data
+    }).then((res: any) => {
+        console.log("🚀 ~ file: paymentPage.vue:292 ~ callRetPayApi ~ res", res)
+        if (res.code == 100) {
+            const { resultCode, errMsg: msg } = res.data
+             if (resultCode === 'SUCCESS') {
+                paySuccess.value = true
+                payError.value = false
+                payIn.value = false
+                paydata.value = res.data
+                upload()
+            } else if (resultCode === 'FAIL') {
+                payError.value = true
+                paySuccess.value = false
+                payIn.value = false
+                errMsg.value = msg || "用户余额不足"
+            }
+        } else {
+            console.log('支付查询失败', res.data)
+            payError.value = true
+            paySuccess.value = false
+            payIn.value = false
+            errMsg.value = res.data != null ? res.data.errMsg || res.data.code : res.message
+        }
+    }).catch(err => {
+        console.log("🚀 ~ file: paymentPage.vue:217 ~ cancelPayApi ~ err", err)
     })
 }
 const cancel = () => {
