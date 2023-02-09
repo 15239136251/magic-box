@@ -383,7 +383,7 @@
 				}).then((res: any) => {
 					const price = res.data;
 					Object.keys(price).forEach(key => {
-						this.pdtFind.skus.find(sku => {
+						this.pdtFind.skus.forEach(sku => {
 							if (sku.no === key) {
 								sku["pricelist"] = price[key]
 							}
