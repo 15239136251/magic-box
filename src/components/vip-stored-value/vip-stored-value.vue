@@ -1,6 +1,6 @@
 <template>
     <view>
-        <van-popup v-model:show="isopen" @click-overlay="isopen = false" position="center" title="会员储值卡" on-click-overlay>
+        <van-popup v-model:show="isopen" @click-overlay="close" position="center" title="会员储值卡" on-click-overlay>
             <view class="vip-stored-value">
                 <view class="vip-stored-value-title">
                     <text>会员储值卡</text>
@@ -99,7 +99,7 @@ const props = defineProps({
 const { isopen } = toRefs(props)
 const beAmt = ref(props.beAmt)
 const vip = ref(props.vip)
-const emit = defineEmits(['save', 'close'])
+const emits = defineEmits(['save', 'close'])
 const data = reactive({
     name: props.vip.name,
     phone: props.vip.cardno,
@@ -111,7 +111,7 @@ const data = reactive({
 const time = ref(0)
 
 const close = () => {
-    emit('close')
+    emits('close')
 }
 const getCode = () => {
     setCodeStorage()
@@ -165,7 +165,7 @@ const save = () => {
     if (data.amt > Number(props.beAmt)) return showModal('提示', '当前应付金额大于剩余应付', false)
     if (data.amt > data.amtcan) return showModal('提示', '当前应付金额大于可用金额', false)
     uniStorage.removeItem('vipstored-code')
-    emit('save', data.amt)
+    emits('save', data.amt)
     time.value = 3
     data.code = ''
     close()
