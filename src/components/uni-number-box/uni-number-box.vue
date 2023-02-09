@@ -106,7 +106,8 @@
 	};
 </script>
 <style lang="scss" scoped>
-	$box-height: 35px;
+	$box-height: 30px;
+	// $box-height: 35px;
 	/* #ifdef APP-NVUE */
 	$box-line-height: 35px;
 	/* #endif */
