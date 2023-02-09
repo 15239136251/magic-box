@@ -203,12 +203,11 @@ export const useRetOriginalOrderStore = defineStore('retOriginalOrder', {
     },
     searchInput(e: any) {
         const data = e
-        const noPush = this.items.find(item => {
+        const noPush = this.items.some(item => {
             if (item.no === data.no) {
                 item.qty = item.qty + 1 > item.qtyCan ? item.qty : item.qty + 1
                 return true
             }
-            return false
         })
         if (!noPush) this.addItem(data)
     },
