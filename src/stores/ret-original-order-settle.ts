@@ -62,7 +62,7 @@ export const useRetOriginalOrderSettleStore = defineStore('retOriginalOrderSettl
         },
         isPayShow(pay: any) {
             if (pay.is_vou === 'Y') return false;
-            // if (pay.isrecharge === 'Y' && (this.routerValue.vip?.id === -1 || !this.routerValue.vip?.id)) return false
+            if (pay.isrecharge === 'Y' && (this.routerValue.vip?.id === -1 || !this.routerValue.vip?.id)) return false
             const names = ["积分", "整单优惠"]
             if (names.includes(pay.name)) return false
             return true
