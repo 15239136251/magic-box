@@ -50,12 +50,15 @@
         <view class="h-full flex flex-col items-center p-2 mb-2 overflow-hidden">
 			<view class="w-full rounded-t bg-white border border-solid border-gray-200 border-x-0 border-t-0 flex items-center">
 				<view class="w-full flex bg-white overflow-hidden border border-solid border-gray-200 border-x-0 border-t-0" style="border: none; font-size: 28rpx; height: 80rpx">
-					<view class="flex flex-center w-2-3">
+					<view class="flex flex-center w-3-6">
 						<text style="font-weight: 600;">商品</text>
 					</view>
-					<view class="flex flex-center w-1-3">
+					<view class="flex flex-center w-2-6">
 						<text style="font-weight: 600;">数量</text>
-					</view>					
+					</view>
+					<view class="flex flex-center w-1-6">
+						<text style="font-weight: 600;">操作</text>
+					</view>
 				</view>
 			</view>
 			<scroll-view

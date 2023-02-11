@@ -96,7 +96,7 @@ import { useRetNoOriginalOrderSettleStore } from '@/stores/ret-no-original-order
 const retNoOriginalOrderSettleStore = useRetNoOriginalOrderSettleStore()
 
 /* 参数 */
-const { totAmt, amtinv, beAmtinv, payItems, payType, beAmts, payAmts, payAllAmt, routerValue, isOpenVipStoredValue } = toRefs(retNoOriginalOrderSettleStore)
+const { totAmt, amtinv, beAmtinv, payItems, payType, payAmts, payAllAmt, routerValue, isOpenVipStoredValue } = toRefs(retNoOriginalOrderSettleStore)
 /* 方法 */
 const { init, payItemClick, isPayShow, payAmtsInput, out, rePay, save, getPays, vipStoredValueSave, closeVipStoredValue } = retNoOriginalOrderSettleStore
 
