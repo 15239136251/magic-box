@@ -204,3 +204,14 @@ export interface RetOriginalOrderListApi {
 }
 export interface RetOriginalOrde extends RetOriginalOrderListApi {
 }
+/* 非原单退货 */
+export interface RetNoOriginalOrderListItems extends CommonData  {
+    no?: string
+    value: string
+    value1: string
+    value2: string
+    isO2o?: string
+    pricelist: number
+    old_pricelist: number
+    empids?: number[]
+}

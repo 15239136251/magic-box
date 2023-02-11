@@ -3,22 +3,26 @@
         <!-- 操作区域 -->
         <view class="bg-white p-4">
             <view class="bg-white shadow-md rounded p-3 flex">
-				<view class="w-14 mr-5 text-center" @click="newBill">
+				<view class="w-14 mr-5 text-center" @click="newOrder">
 					<image class="w-10 h-10" src="/static/svg/kai_dan.svg" mode=""></image>
 					<view>开新单</view>
 				</view>
 				<view class="w-14 mr-5 text-center relative">
 					<image class="w-10 h-10" src="/static/svg/ying_ye_yuan.svg" mode="" @click="openEmployee"></image>
 					<view>{{ employeeName }}</view>
-					<view class="w-14 h-24 bg-white shadow p-1 absolute mt-1 overflow-y-auto h-24" v-if="isOpenEmployee">
-						<view class="text-center text-sm mb-1 mt-1" v-for="employee in employeeList" :key="employee.id" @click="employeeChange(employee)">
-							<text class="">{{ employee.name }}</text>
-						</view>
-					</view>
 				</view>
-				<view class="w-14 text-center" @click="openHang">
+				<view class="w-14 mr-5 text-center" @click="openHang">
 					<image class="w-10 h-10" src="/static/svg/gua_dan.svg" mode=""></image>
 					<view>挂单</view>
+				</view>
+				<view class="w-16 text-center relative">
+					<image class="w-10 h-10" src="/static/svg/ying_ye_yuan.svg" mode="" @click="openRetailType"></image>
+					<view>{{ retailTypeName }}</view>
+					<view class="w-14 h-24 bg-white shadow p-1 absolute mt-1 overflow-y-auto h-24" v-if="isOpenRetailType">
+						<view class="text-center text-sm mb-1 mt-1" v-for="retailtype in retailtypelist" :key="retailtype.code" @click="retailTypeChange(retailtype)">
+							<text class="">{{ retailtype.name }}</text>
+						</view>
+					</view>
 				</view>
 			</view>
 			<view class="mt-3 bg-gray-100 rounded p-3 flex h-16">
@@ -39,17 +43,17 @@
 				</view>
 			</view>
 			<view class="mt-3">
-				<search-sku-input @input="searchInput"></search-sku-input>
+				<search-sku-input ref="SearchSkuInput" @input="searchInput"></search-sku-input>
 			</view>
         </view>
         <!-- 明细 -->
         <view class="h-full flex flex-col items-center p-2 mb-2 overflow-hidden">
 			<view class="w-full rounded-t bg-white border border-solid border-gray-200 border-x-0 border-t-0 flex items-center">
 				<view class="w-full flex bg-white overflow-hidden border border-solid border-gray-200 border-x-0 border-t-0" style="border: none; font-size: 28rpx; height: 80rpx">
-					<view class="flex flex-center" style="width: 70%">
+					<view class="flex flex-center w-2-3">
 						<text style="font-weight: 600;">商品</text>
 					</view>
-					<view class="flex flex-center" style="width: 30%">
+					<view class="flex flex-center w-1-3">
 						<text style="font-weight: 600;">数量</text>
 					</view>					
 				</view>
@@ -66,26 +70,53 @@
 					v-for="(item, index) in items"
 					:key="item.id" 
 				>
-					<q-del-slide-left :item="item" :data_transit="{index:item.id,item:item}" @delItem="delItem" class="w-full text-sm">
-						<view class="flex">
-							<view style="width: 70%">
-								<view class="">
-									<text>{{ item.name + ' ' + item.no }}</text>
-								</view>
-								<view class="flex justify-between mt-2">
-									<text>{{ item.color_name + `(${item.color_code})` + ' ' + item.size_name }}</text>
-								</view>
+					<view class="flex w-full">
+						<view class="w-3-6 overflow-hidden">
+							<view class="">
+								<text>{{ item.name + ' ' }}</text>
+								<text>{{ item.value.length > 5 ? item.value.slice(0, 5) + '..' : item.value }}</text>
 							</view>
-							<view style="width: 30%">
-								<uni-number-box :value="item.qty" :max="item.qtycan" @change="inputnumberChange($event, index)"></uni-number-box>
-								<view class="flex flex-center border-notice py-2 mt-1" style="width: 100%;">
-									<view class="w-full text-center py-1">
-										{{ '￥' + (item.priceactual || '') }}
+							<view class="flex items-center mt-2">
+								<text>规格:{{ item.value1 + '-' + item.value2 }}</text>
+								<image v-if="item.isO2o == 'N'" class="w-4 h-4" src="/static/svg/ling_shou.svg" mode=""></image>
+								<image v-else-if="item.isO2o === 'Y'" class="w-4 h-4" src="/static/svg/yun_cang.svg" mode=""></image>
+							</view>
+							<view class="flex mt-2">
+								<text>条码:{{ item.no || '' }}</text>
+							</view>
+						</view>
+						<view class="w-2-6">
+							<uni-number-box style="width: 100%;" :value="item.qty" @change="inputnumberChange($event, index)"></uni-number-box>
+							<view class="h-12 mt-2 border-notice flex flex-col" style="box-sizing: border-box; width: 100%;">
+								<view class="flex-1 flex flex-center" style="box-sizing: border-box; border-bottom: 1px solid #ccc; height: 50%">
+									<view class="w-full text-center">
+										<input type="text" :value="item.pricelist" @input="itemInput($event, index)" />
+									</view>
+								</view>
+								<view class="flex-1 flex flex-center" style="height: 50%">
+									<view class="w-full text-center">
+										<text class="text-gray-200" style="text-decoration: line-through;">￥{{ item.old_pricelist }}</text>
 									</view>
 								</view>
 							</view>
 						</view>
-					</q-del-slide-left>
+						<view class="w-1-6 text-center flex flex-col items-center justify-around">
+							<view 
+								class="border border-solid rounded p-1 text-sm w-4 h-4 flex items-center bg-white" 
+								style="border-color: #c5c5c5;" 
+								@click="delItem({ index, item})"
+							>
+								<image class="w-4 h-4" src="/static/svg/delete.svg" mode=""></image>
+							</view>
+							<view 
+								class="border border-solid rounded p-1 text-sm w-4 h-4 flex items-center bg-white" 
+								style="border-color: #c5c5c5;"
+								@click="openItemEmployee({item})"
+							>
+								<text>营</text>
+							</view>
+						</view>
+					</view>
 				</view>
 			</scroll-view>
         </view>
@@ -228,25 +259,34 @@
 				</view>
 			</view>
 		</van-popup>
+		<!-- 营业员弹窗 -->
+		<employee-dialog :isopen="isOpenEmployee" :list="employeeList" :value="employeeIds" @close="closeEmployee" @save="employeeSave"></employee-dialog>
+		<!-- 明细营业员弹窗 -->
+		<employee-dialog :isopen="isOpenItemEmployee" :list="employeeList" :value="itemEmployeeIds" @close="closeItemEmployee" @save="itemEmployeeSave"></employee-dialog>
     </view>
 </template>
 
 <script setup lang="ts">
-import { toRefs, onMounted } from 'vue'
+import { toRefs, onMounted, ref } from 'vue'
 import { onLoad } from '@dcloudio/uni-app'
-import { useRetOriginalOrderStore } from '@/stores/ret-original-order'
+import { useRetNoOriginalOrderStore } from '@/stores/ret-no-original-order'
+import searchSkuInput from '@/components/search-sku-input/search-sku-input.vue'
 
-const retOriginalOrderStore = useRetOriginalOrderStore()
+const retNoOriginalOrderStore = useRetNoOriginalOrderStore()
 // 参数
 const { 
 	employeeName, 
 	isOpenEmployee, 
+	employeeIds,
 	employeeList, 
 	isOpenHangReason, 
 	isOpenHangList, 
 	hanglist, 
 	hangSelectId, 
 	hangReasonValue, 
+	retailTypeName,
+	isOpenRetailType,
+	retailtypelist,
 	vip, 
 	isOpenVipDialog, 
 	vipPhone, 
@@ -254,21 +294,27 @@ const {
 	totQty, 
 	totAmt, 
 	items, 
+	isOpenItemEmployee,
+	itemEmployeeIds,
 	isOpenDescription,
 	description
-} = toRefs(retOriginalOrderStore)
+} = toRefs(retNoOriginalOrderStore)
 // 方法
 const { 
 	init, 
 	newBill, 
 	getEmployeeList, 
 	openEmployee, 
-	employeeChange, 
+	closeEmployee,
+	employeeSave, 
 	openHang, 
 	closeHang, 
 	hangReasonInput, 
 	hangReasonSave, 
 	hanglistSave, 
+	openRetailType,
+	retailTypeChange,
+	getRetailTypeList,
 	openVipDialog, 
 	vipPhoneInput, 
 	vipSearch, 
@@ -277,18 +323,31 @@ const {
 	searchInput,
 	delItem,
 	inputnumberChange,
+	itemInput,
+	openItemEmployee,
+	closeItemEmployee,
+	itemEmployeeSave,
 	openDescription,
 	descriptionInput,
 	descriptionSave,
 	closeDescription,
 	to
-} = retOriginalOrderStore
-
-onLoad((option) => {
-    if (option.value) init(JSON.parse(option.value))
+} = retNoOriginalOrderStore
+const SearchSkuInput = ref()
+const newOrder = () => {
+	newBill(() => {
+		SearchSkuInput.value?.clearInputValue()
+	})
+}
+onLoad((options) => {
+	if (options.init) {
+		retNoOriginalOrderStore.$reset()
+	}
 })
 onMounted(() => {
-    getEmployeeList()
+	init()
+	getEmployeeList()
+	getRetailTypeList()
 })
 </script>
 
