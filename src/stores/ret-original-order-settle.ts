@@ -78,13 +78,9 @@ export const useRetOriginalOrderSettleStore = defineStore('retOriginalOrderSettl
             this.payAmts[key] = value
         },
         out(init: boolean) {
-            if (init) {
-                uni.reLaunch({
-                    url: "/pages/retOriginalOrderList/retOriginalOrderList"
-                })
-            } else {
-                uni.navigateBack()
-            }
+            uni.navigateBack({
+                delta: init ? 2 : 1
+            })
         },
         rePay() {
             Object.keys(this.payAmts).forEach(key =>  {
@@ -178,9 +174,7 @@ export const useRetOriginalOrderSettleStore = defineStore('retOriginalOrderSettl
                 method: 'POST',
                 data
             }).finally(() => {
-                uni.reLaunch({
-                    url: "/pages/retOriginalOrderList/retOriginalOrderList"
-                })
+                this.out(true)
             })
         },
         vipStoredValueSave(amt: number) {
