@@ -102,7 +102,7 @@ export const useRetNoOriginalOrderStore = defineStore('retNoOriginalOrder', {
         if (this.items.length) {
             this.isOpenHangReason = true
         } else {
-            const hanglist = uniStorage.getItem('ret-np-original-hanglist')
+            const hanglist = uniStorage.getItem('ret-no-original-hanglist')
             if (hanglist) this.hanglist = JSON.parse(hanglist)
             this.isOpenHangList = true
         }
@@ -113,7 +113,7 @@ export const useRetNoOriginalOrderStore = defineStore('retNoOriginalOrder', {
     hangReasonSave() {
         const hangid = uniStorage.getItem('hangid')
         const hangdate = uniStorage.getItem('hangdate')
-        const hanglist = uniStorage.getItem('ret-np-original-hanglist')
+        const hanglist = uniStorage.getItem('ret-no-original-hanglist')
         const billdate = getDate()
         let newHanglist = []
         let newHangId = Number(hangid)
@@ -140,7 +140,7 @@ export const useRetNoOriginalOrderStore = defineStore('retNoOriginalOrder', {
         }
         newHanglist.push(value)
         /* 替换本地缓存 */
-        uniStorage.setItem('ret-np-original-hanglist', JSON.stringify(newHanglist))
+        uniStorage.setItem('ret-no-original-hanglist', JSON.stringify(newHanglist))
         this.reset()
         this.closeHang()
     },
@@ -152,7 +152,7 @@ export const useRetNoOriginalOrderStore = defineStore('retNoOriginalOrder', {
         this.items = items
         /* 去除已选的挂单 */
         const newlist = this.hanglist.filter(hang => hang.id !== this.hangSelectId)
-        uniStorage.setItem('ret-np-original-hanglist', JSON.stringify(newlist))
+        uniStorage.setItem('ret-no-original-hanglist', JSON.stringify(newlist))
         this.closeHang()
     },
     closeHang() {
