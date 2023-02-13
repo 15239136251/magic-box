@@ -165,7 +165,7 @@
 					if (val[this.name]) {
 						this.inputVal = val[this.name]
 					} else {
-						this.inputVal = this.value
+						this.inputVal = this.value === -1 ? '' : this.value
 					}	
 				},
 				immediate: true
@@ -176,7 +176,7 @@
 					if (val[this.name]) {
 						this.inputVal = val[this.name]
 					} else {
-						this.inputVal = this.value
+						this.inputVal = this.value === -1 ? '' : this.value
 					}
 				},
 				immediate: true
