@@ -226,6 +226,7 @@ export const useRetNoOriginalOrderStore = defineStore('retNoOriginalOrder', {
                 item.qty = item.qty + 1
                 return true
             }
+            return false
         })
         if (!noPush) this.addItem(data)
     },
@@ -298,6 +299,7 @@ export const useRetNoOriginalOrderStore = defineStore('retNoOriginalOrder', {
                 item.empids = this.itemEmployeeIds
                 return true
             }
+            return false
         })
         console.log("🚀 ~ file: ret-no-original-order.ts:304 ~ itemEmployeeSave ~ this.items", this.items)
         this.closeItemEmployee()

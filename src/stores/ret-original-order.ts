@@ -208,6 +208,7 @@ export const useRetOriginalOrderStore = defineStore('retOriginalOrder', {
                 item.qty = item.qty + 1 > item.qtyCan ? item.qty : item.qty + 1
                 return true
             }
+            return false
         })
         if (!noPush) this.addItem(data)
     },
