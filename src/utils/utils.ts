@@ -1,4 +1,4 @@
-import config from "@/config"
+import uniStorage from "./uniStorage";
 // 拿到当前日期 yyyymmdd
 export const getDate = (last?: boolean | number) => {
 	let date = new Date();
@@ -111,33 +111,33 @@ export const getFilterArray = (arr: any, key = 'id') => {
 
 // 生成单据编码
 export const updateOrderNo = (prefix = "S") => {
-	const key = config.common.storageKey
 	const date = getDate()
 	const newDate = date.substring(date.length - 6)
-	const storeId = uni.getStorageSync(key + "logininfo")?.store_id
-	const orderNo = uni.getStorageSync(key + "deviceno")
-	const deviceType = uni.getStorageSync(key + "devicetype")
+	const storeId: any = uniStorage.getItem('logininfo')
+	const orderNo = uniStorage.getItem('deviceno')
+	const deviceType = uniStorage.getItem('devicetype')
 	// 获得当前单据的流水号
 	function getSerialNum() {
-		let count = uni.getStorageSync(key + "serialnum")
+		let count = Number(uniStorage.getItem('serialnum') || 1)
 		// 得到本地存储的日期，来判断是否重置流水号
-		const storeDate = uni.getStorageSync(key + "serialdate")
+		const storeDate = uniStorage.getItem('serialdate')
 		/* 如果当前日期与本地储存日期不一致，则重置，并将本地储存日期改为当前日期
 		   如果等于则加一 */
 		if (storeDate != date) {
 			count = 1;
-			uni.setStorageSync(key + "serialdate", date)
+			uniStorage.setItem('serialdate', date)
 		} else if (storeDate == date) {
 			count = count + 1;
 		}
 		// 将修改后的流水号存到本地
-		uni.setStorageSync(key + "serialnum", count)
+		uniStorage.setItem('serialnum', count + '')
 		// 如果count长度低于三位数则补零，超过则返回原值
 		let str = count < 1000 ? (Array(3).join("0") + count).slice(-3) : count;
 		return str;
 	}
 	let num = getSerialNum()
-	return `${prefix}${newDate}${storeId}${orderNo}${deviceType}${num}`
+	console.log("🚀 ~ file: utils.ts:141 ~ updateOrderNo ~ num", num)
+	return `${prefix}${newDate}${storeId.store_id}${orderNo}${deviceType}${num}`
 }
 
 // 随机数字 默认 6 位
@@ -145,4 +145,33 @@ export const getRandomNumber = (step: number = 6) => {
 	const max = Number(new Array(step).fill(9).join(''))
 	const index = Number('1' + new Array(step - 1).fill(0).join(''))
 	return Math.floor(Math.random()*(max-index))+index
+}
+
+/* 超出部分改为省略 */
+export const txtSlice = (string: string, step: number) => {
+	if (string.length < step) return string
+	return string.slice(0, step) + '...'
+}
+
+// 计算小数点后面有几位小数
+export const loanRate = (num: number) => {
+	let x = String(num).indexOf('.') + 1;
+	let y = String(num).length - x;
+	return y;
+};
+
+// 保留小数
+export const toFixed = (value: string | number, num = 2) => {
+	let _value = Number(value)
+	return Number(_value.toFixed(num))
+}
+
+// 取整到角
+export const roundToCorner = (value: string | number) => {
+	return toFixed(value, 1)
+}
+
+// 取整到元
+export const roundToYuan = (value: string | number) => {
+	return toFixed(value, 0)
 }
