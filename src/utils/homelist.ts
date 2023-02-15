@@ -103,7 +103,7 @@ const homelist = {
 			{
 				"iconUrl": "/static/svg/cjwt.svg",
 				"text": "数据分析",
-				"path": "/pages/H5Page/H5Page?url=" + param.reportUrl ? param.reportUrl + '/index' : ''
+				"path": param.reportUrl ? "/pages/H5Page/H5Page?url=" + param.reportUrl + "/index" : "/pages/H5Page/H5Page?url="
 			}]
 		}
 	],
@@ -157,5 +157,6 @@ export default (keys: FilterKey) => {
         top: _top,
         data: _data
     }
+    console.log("🚀 ~ file: homelist.ts:160 ~ value", value)
     return value
 }
