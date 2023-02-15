@@ -57,6 +57,7 @@ export interface Vip {
     type_name?: string
     birthday?: string
     amount?: number
+    dimitems?: any
 }
 
 /* 会员查询 */
@@ -214,4 +215,31 @@ export interface RetNoOriginalOrderListItems extends CommonData  {
     pricelist: number
     old_pricelist: number
     empids?: number[]
+}
+
+/* 开单 */
+export interface BillItem extends CommonData {
+    no?: string
+    value: string
+    value1: string
+    value2: string
+    isO2o?: string
+    pricelist: number
+    old_pricelist: number
+    empids?: number[]
+    dims?: any
+    isGift: string
+    isActivity: string
+    discount: number
+    vipDisAmount: number
+    activityDisAmt: number
+    ticketDisAmt: number
+    integralDisAmt: number
+    activityName: string
+    giftItem?: any
+    selecItems?: any
+    children?: BillItem[]
+}
+export interface DealMarketing {
+
 }
