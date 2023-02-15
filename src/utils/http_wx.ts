@@ -48,13 +48,18 @@ const resError = (res: any, msg = '响应发生错误') =>
 // 响应成功(status === 2xx)时会被调用
 const resFn = (res: any) =>
   new Promise((resolve, reject) => {
-    const { code, data, result, msg, message, success, token } = res.data
+    const { code, data, result, msg, message, success, token, activityItems } = res.data
     if (token) uniStorage.setItem('token', token)
     if (success || +code === 0) {
       // resolve(data || result)
       // TODO 因小程序列表接口统计信息与data并列，需将res.data返回
       resolve(res.data)
       return
+    }
+    /* TODO 因为促销接口返回的数据没有code字段，需要单独加入判断 */
+    if (activityItems) {
+      resolve(res)
+      return 
     }
     showToast(msg || message)
     const LOGIN_STATUS = uniStorage.getItem('login-status')
