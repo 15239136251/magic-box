@@ -5,7 +5,7 @@ import * as Pinia from 'pinia'
 import piniaPersist from '@/plugins/pinia-plugin-persist'
 
 // #ifdef H5 || APP-PLUS
-import { Popup, Cell } from 'vant'
+import { Popup, Cell, CellGroup, Field, Button } from 'vant'
 import 'vant/lib/index.css'
 // #endif
 import 'virtual:windi.css'
@@ -22,6 +22,9 @@ export function createApp() {
   // #ifdef H5 || APP-PLUS
   app.use(Popup)
   app.use(Cell)
+  app.use(CellGroup)
+  app.use(Field)
+  app.use(Button)
   // #endif
   return {
     app,
